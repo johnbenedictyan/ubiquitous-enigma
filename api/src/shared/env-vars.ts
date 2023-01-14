@@ -1,4 +1,4 @@
 export default {
   nodeEnv: process.env.NODE_ENV ?? "",
-  port: "4000",
+  port: process.env.PORT ?? "",
 } as const;
