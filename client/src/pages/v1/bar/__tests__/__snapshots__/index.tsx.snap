@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`V1 Bar Chart Page should render and match the snapshot 1`] = `
+<div>
+  <p>
+    V1 Bar Chart Page
+  </p>
+  <CustomBarChart
+    data={Array []}
+  />
+</div>
+`;

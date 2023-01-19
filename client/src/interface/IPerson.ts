@@ -1,8 +1,8 @@
-import { gender } from "../enum/gender";
+import { GENDERS } from "../enum/gender";
 
 export interface IPerson {
   id: number;
   name: string;
   age: number;
-  gender: gender;
+  gender: GENDERS;
 }

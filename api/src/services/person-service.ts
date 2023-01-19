@@ -1,21 +1,31 @@
-import userRepo from "@repos/user-repo";
-import { IUser } from "@models/user-model";
-import { UserNotFoundError } from "@shared/errors";
+import { Person, PrismaClient } from '@prisma/client';
+
+import { IPerson } from '../models/person-model';
+
+const prisma = new PrismaClient();
 
 // **** Functions **** //
 
 /**
  * Get all persons
  */
-function getAll(): Promise<IUser[]> {
-  return userRepo.getAll();
+async function getAll(): Promise<Person[]> {
+  const people = await prisma.person.findMany({});
+  return people;
 }
 
 /**
  * Add one person
  */
-function addOne(user: IUser): Promise<void> {
-  return userRepo.add(user);
+async function addOne(newPerson: IPerson): Promise<Person> {
+  const createdPerson = await prisma.person.create({
+    data: {
+      name: newPerson.name,
+      age: newPerson.age,
+      gender: newPerson.gender,
+    },
+  });
+  return createdPerson;
 }
 
 // **** Export default **** //

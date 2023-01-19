@@ -1,27 +1,29 @@
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-import React, { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 
-import logo from './logo.svg';
+import { CustomNavbar } from './components/navbar';
+import { V1BarChartPage } from './pages/v1/bar';
+import { V1InputPage } from './pages/v1/input';
+import { V1PieChartPage } from './pages/v1/pie';
+import { V2BarChartPage } from './pages/v2/bar';
+import { V2InputPage } from './pages/v2/input';
+import { V2PieChartPage } from './pages/v2/pie';
 
 function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header>
+            <CustomNavbar />
+            <Switch>
+                <Route exact path="/v1/pie" component={V1PieChartPage} />
+                <Route exact path="/v1/bar" component={V1BarChartPage} />
+                <Route exact path="/v1/input" component={V1InputPage} />
+                <Route exact path="/v2/pie" component={V2PieChartPage} />
+                <Route exact path="/v2/bar" component={V2BarChartPage} />
+                <Route exact path="/v2/input" component={V2InputPage} />
+            </Switch>
         </div>
     );
 }

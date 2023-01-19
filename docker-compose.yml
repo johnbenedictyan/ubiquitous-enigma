@@ -7,7 +7,6 @@ services:
       - '4000:4000'
     volumes:
       - ./api:/app
-      - ./app/node_modules
   client:
     build: ./client
     container_name: client_frontend
@@ -15,14 +14,17 @@ services:
       - '3000:3000'
     volumes:
       - ./client:/app
-      - ./app/node_modules
     stdin_open: true
     tty: true
     depends_on:
-      - sqlite3
-  sqlite3:
-    image: keinos/sqlite3:latest
-    stdin_open: true
-    tty: true
+      - db
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    ports:
+      - '5432:5432'
     volumes:
-      - ./db/:/root/db/
+      - ./db:/app
