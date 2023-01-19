@@ -1,7 +1,7 @@
-import { FloatingLabel, Form, Table } from "react-bootstrap";
-import React, { useEffect } from "react";
-// import { readFileSync } from "fs";
-import { GENDERS } from "../../enum/gender";
+import React, { useCallback, useEffect } from 'react';
+import { FloatingLabel, Form, Table } from 'react-bootstrap';
+
+import { GENDERS } from '../../enum/gender';
 import { IPerson } from '../../interface/IPerson';
 
 interface IInputDataForm {
@@ -19,20 +19,20 @@ export const InputDataForm: React.FC<IInputDataForm> = props => {
     }
 
     const handleAgeChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
-        setAge(e.target.value != '' ? parseInt(e.target.value) : 1);
+        setAge(e.target.value !== '' ? parseInt(e.target.value) : 1);
     }
 
     const handleGenderChange: React.ChangeEventHandler<HTMLSelectElement> = (e) => {
-        setGender(e.target.value == "M" ? GENDERS.M : GENDERS.F);
+        setGender(e.target.value === "M" ? GENDERS.M : GENDERS.F);
     }
 
     const handleSubmit = (e: React.SyntheticEvent) => {
         e.preventDefault();
-        if (props.version == "V1") {
+        if (props.version === "V1") {
             // JSON DB
             // let data = JSON.parse(readFileSync('../../mocks/personMock.json', 'utf-8'));
             // console.log(data)
-            if (personData && personData.slice(-1).length == 1) {
+            if (personData && personData.slice(-1).length === 1) {
                 let latestId: number = personData.slice(-1)[0].id ? personData.slice(-1)[0].id : 0;
                 let newPersonData: IPerson[] = personData;
 
@@ -71,24 +71,24 @@ export const InputDataForm: React.FC<IInputDataForm> = props => {
             });
     }
 
-    const saveStateToLocalStorage = () => {
+    const saveStateToLocalStorage = useCallback(() => {
         localStorage.setItem('state', JSON.stringify(personData));
-    }
+    }, [personData]);
 
     // Fetch data from local storage
-    const getStateFromLocalStorage = () => {
+    const getStateFromLocalStorage = useCallback(() => {
         let data = localStorage.getItem('state');
-        if (data !== null && data != '[]') {
+        if (data !== null && data !== '[]') {
             setPersonData(JSON.parse(data));
         } else {
             getMockData();
             saveStateToLocalStorage();
         }
-    }
+    }, [saveStateToLocalStorage]);
 
     useEffect(() => {
         getStateFromLocalStorage();
-    }, [])
+    }, [getStateFromLocalStorage])
 
     return (
         <form onSubmit={handleSubmit}>

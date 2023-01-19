@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { CustomBarChart } from "../../../components/charts/bar";
-import { GENDERS } from "../../../enum/gender";
-import { IChartData } from "../../../interface/IChartData";
-import { IPerson } from "../../../interface/IPerson";
+import React, { useCallback, useEffect } from 'react';
+
+import { CustomBarChart } from '../../../components/charts/bar';
+import { IChartData } from '../../../interface/IChartData';
+import { IPerson } from '../../../interface/IPerson';
 
 export const V1BarChartPage: React.FC = () => {
     const [chartData, setChartData] = React.useState<IChartData[]>([]);
@@ -27,24 +27,24 @@ export const V1BarChartPage: React.FC = () => {
             });
     }
 
-    const saveStateToLocalStorage = () => {
+    const saveStateToLocalStorage = useCallback(() => {
         localStorage.setItem('state', JSON.stringify(personData));
-    }
+    }, [personData]);
 
     // Fetch data from local storage
-    const getStateFromLocalStorage = () => {
+    const getStateFromLocalStorage = useCallback(() => {
         let data = localStorage.getItem('state');
-        if (data !== null && data != '[]') {
+        if (data !== null && data !== '[]') {
             setPersonData(JSON.parse(data));
         } else {
             getMockData();
             saveStateToLocalStorage();
         }
-    }
+    }, [saveStateToLocalStorage]);
 
     useEffect(() => {
         getStateFromLocalStorage();
-    }, [])
+    }, [getStateFromLocalStorage])
 
     useEffect(() => {
         if (personData) {

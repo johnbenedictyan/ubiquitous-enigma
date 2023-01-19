@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { CustomPieChart } from "../../../components/charts/pie"
 import { IChartData } from "../../../interface/IChartData";
 import { IPerson } from "../../../interface/IPerson";
@@ -27,30 +27,30 @@ export const V1PieChartPage: React.FC = () => {
             });
     }
 
-    const saveStateToLocalStorage = () => {
+    const saveStateToLocalStorage = useCallback(() => {
         localStorage.setItem('state', JSON.stringify(personData));
-    }
+    }, [personData]);
 
     // Fetch data from local storage
-    const getStateFromLocalStorage = () => {
+    const getStateFromLocalStorage = useCallback(() => {
         let data = localStorage.getItem('state');
-        if (data !== null && data != '[]') {
+        if (data !== null && data !== '[]') {
             setPersonData(JSON.parse(data));
         } else {
             getMockData();
             saveStateToLocalStorage();
         }
-    }
+    }, [saveStateToLocalStorage]);
 
     useEffect(() => {
         getStateFromLocalStorage();
-    }, [])
+    }, [getStateFromLocalStorage])
 
     useEffect(() => {
         if (personData) {
             let newChartData: IChartData[] = [];
-            newChartData.push({ name: "Male", value: personData.filter(x => x.gender == GENDERS.M).length });
-            newChartData.push({ name: "Female", value: personData.filter(x => x.gender == GENDERS.F).length });
+            newChartData.push({ name: "Male", value: personData.filter(x => x.gender === GENDERS.M).length });
+            newChartData.push({ name: "Female", value: personData.filter(x => x.gender === GENDERS.F).length });
             setChartData(newChartData);
         }
     }, [personData]);
