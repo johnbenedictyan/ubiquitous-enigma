@@ -52,6 +52,7 @@ export const InputDataForm: React.FC<IInputDataForm> = props => {
     }
 
     const getMockData = () => {
+        console.log(process.env.PUBLIC_URL + 'data.json')
         fetch(process.env.PUBLIC_URL + 'data.json'
             , {
                 headers: {
