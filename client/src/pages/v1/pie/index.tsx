@@ -9,7 +9,7 @@ export const V1PieChartPage: React.FC = () => {
     const [personData, setPersonData] = React.useState<IPerson[]>([]);
 
     const getMockData = () => {
-        fetch('../data.json'
+        fetch(process.env.PUBLIC_URL + 'data.json'
             , {
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,13 +47,13 @@ export const V1PieChartPage: React.FC = () => {
     }, [])
 
     useEffect(() => {
-        if(personData){
+        if (personData) {
             let newChartData: IChartData[] = [];
             newChartData.push({ name: "Male", value: personData.filter(x => x.gender == GENDERS.M).length });
             newChartData.push({ name: "Female", value: personData.filter(x => x.gender == GENDERS.F).length });
             setChartData(newChartData);
         }
-    },[personData]);
+    }, [personData]);
 
     return (
         <div>
