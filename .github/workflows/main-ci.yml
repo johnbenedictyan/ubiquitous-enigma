@@ -5,11 +5,10 @@ name: Main CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     strategy:
@@ -18,28 +17,30 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install # will run `yarn install` command
-        dir: 'client'
-    - name: Run test in sub-folder
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: test
-        dir: 'client' # will run `yarn test` in `client` sub folder
-    - name: Build production bundle
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: build
-        dir: 'client'
-    - name: Deploy to Github Pages
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: deploy
-        dir: 'client'
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install # will run `yarn install` command
+          dir: "client"
+      - name: Run test in sub-folder
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: test
+          dir: "client" # will run `yarn test` in `client` sub folder
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+          dir: "client"
+      - name: Deploy to GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v3
+        with:
+          target_branch: gh-pages
+          build_dir: ./client/build
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}

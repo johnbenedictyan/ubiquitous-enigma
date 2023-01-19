@@ -58,11 +58,11 @@ router.get(p.pie, async (_: Request, res: Response) => {
   let data: IChartData[] = [];
   data.push({
     name: "Male",
-    value: persons.filter((x) => x.gender == GENDERS.M).length,
+    value: persons.filter((x) => x.gender === GENDERS.M).length,
   });
   data.push({
     name: "Female",
-    value: persons.filter((x) => x.gender == GENDERS.F).length,
+    value: persons.filter((x) => x.gender === GENDERS.F).length,
   });
 
   return res.status(OK).json({ data });
